@@ -11,7 +11,7 @@ const dataObj = {
 
 function Image(props) {
   const { src, alt } = props;
-  return <img src={src} alt={alt} style={{ width: '500px', height: 'auto' }} />;
+  return <img src={src} alt={alt} style={{ width: '100%', height: 'auto' }} />;
 }
 
 class MovieItem extends React.Component {
@@ -19,6 +19,7 @@ class MovieItem extends React.Component {
     super();
     this.state = {
       showOverview: false,
+      like: false,
       showMustGoOn: true,
     };
   }
@@ -27,13 +28,17 @@ class MovieItem extends React.Component {
       data: { title, vote_average, image: src, overview },
     } = this.props;
     return (
-      <div>
+      <div style = {{width: '300px'}}>
         <p>{title}</p>
         <p>{vote_average}</p>
         <Image src={src} alt={title} />
-        <div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <button type='button' onClick={this.onClick}>
             {this.state.showOverview ? 'Hide' : 'Show'}
+          </button>
+          <button type='button' onClick={this.handleLike}
+            className={this.state.like ? 'btn--like': ''}>
+            Like
           </button>
         </div>
 
@@ -43,9 +48,16 @@ class MovieItem extends React.Component {
   }
 
   onClick = (event) => {
+    console.log('event ', event);
     const newShowOverview = !this.state.showOverview;
     this.setState({
       showOverview: newShowOverview,
+    });
+  }
+  handleLike = (event) => {
+    const newLike = !this.state.like;
+    this.setState({
+      like: newLike,
     });
   }
 }
